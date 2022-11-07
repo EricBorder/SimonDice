@@ -65,6 +65,21 @@ class MainActivity : AppCompatActivity() {
         arrayBotones[1] = verde
         arrayBotones[2] = amarillo
         arrayBotones[3] = azul
+
+        // Empieza el juego
+        empezarJugar?.setOnClickListener {
+
+            jugarPulsado = true
+            //Hacemos visible el titulo Ronda cuando el jugador pulsa jugar
+            tituloTextView?.visibility = TextView.VISIBLE
+            //Hacemos visible el número de la ronda cuando el jugador pulsa jugar
+            rondaTextView?.visibility = TextView.VISIBLE
+            //Hacemos invisible el boton jugar
+            empezarJugar?.visibility = Button.INVISIBLE
+            mostrarRonda()
+
+
+        }
     }
 
     suspend fun secuenciaBotones() {
@@ -152,9 +167,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
-
         }
     }
+
 
 
 }
