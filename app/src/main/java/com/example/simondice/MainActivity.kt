@@ -134,6 +134,27 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun listernerBotones() {
+        arrayBotones.forEach { (t, u) ->
+            u.setOnClickListener {
+                comprobar.add(t)
+                indice = comprobar.size - 1
+                resultado = comprobar[indice] == secuencia[indice]
+                if (comprobar.size == ronda) {
+                    job = GlobalScope.launch(Dispatchers.Main) {
+                        comprobarSecuencia()
+                    }
+                }
+                if (!resultado && comprobar.size != ronda) {
+                    job = GlobalScope.launch(Dispatchers.Main) {
+                        comprobarSecuencia()
+                    }
+                }
+
+            }
+
+        }
+    }
 
 
 }
