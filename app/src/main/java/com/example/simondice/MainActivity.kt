@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("Estado", "Comprobando secuencia")
         if (!resultado) {
-
+            Toast.makeText(this@MainActivity, "GAME OVER", Toast.LENGTH_SHORT).show()
             // Ponemos la ronda a 0 por que el juego se termino
             delay(500)
             ronda = 0
