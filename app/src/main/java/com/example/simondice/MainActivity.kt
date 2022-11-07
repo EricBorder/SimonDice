@@ -107,6 +107,8 @@ class MainActivity : AppCompatActivity() {
 
         }
         Log.d("Estado", "Secuencia ejecutada")
+        Toast.makeText(this@MainActivity, "REPITE LA SECUENCIA", Toast.LENGTH_SHORT).show()
+
 
     }
 
