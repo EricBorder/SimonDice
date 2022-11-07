@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo"
+    android:background="@drawable/fondo4"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -17,8 +17,8 @@
     <androidx.appcompat.widget.AppCompatButton
 
         android:id="@+id/verde"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="132dp"
         android:background="@drawable/verde"
@@ -29,8 +29,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/rojo"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="132dp"
         android:layout_marginEnd="2dp"
         android:background="@drawable/rojo"
@@ -40,8 +40,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/azul"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="132dp"
@@ -52,8 +52,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/amarillo"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="132dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
@@ -81,17 +81,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/scoreText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scoreText"
-        android:text="0"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:textAlignment="textEnd"
-        android:textSize="36sp"
         android:fontFamily="casual"
+        android:text="0"
+        android:textAlignment="textEnd"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"/>
+        tools:layout_editor_absoluteX="37dp"
+        tools:layout_editor_absoluteY="65dp" />
+
     <TextView
         android:id="@+id/titulo"
         android:layout_width="wrap_content"
@@ -118,12 +121,12 @@
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="330dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="159dp"
         android:layout_marginTop="337dp"
         android:layout_marginEnd="159dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="190dp"
         android:background="#FFFFFF"
         android:backgroundTint="#6E27B1"
         android:text="INICIO"
