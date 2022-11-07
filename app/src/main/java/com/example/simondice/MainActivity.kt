@@ -4,9 +4,11 @@ import android.content.Intent
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import kotlinx.coroutines.Job
+import android.widget.Toast
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,6 +65,21 @@ class MainActivity : AppCompatActivity() {
         arrayBotones[1] = verde
         arrayBotones[2] = amarillo
         arrayBotones[3] = azul
-
     }
+
+    suspend fun secuenciaBotones() {
+
+        val random = (0..3).random()
+        secuencia.add(random)
+        val tamaño = ronda - 1
+        for (i in 0..tamaño) {
+            delay(500)
+            arrayBotones[secuencia[i]]?.visibility = Button.INVISIBLE
+            delay(500)
+            arrayBotones[secuencia[i]]?.visibility = Button.VISIBLE
+
+        }
+        secuenciaTerminada = true
+    }
+
 }
