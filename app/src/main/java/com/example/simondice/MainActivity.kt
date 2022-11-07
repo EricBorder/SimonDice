@@ -107,6 +107,32 @@ class MainActivity : AppCompatActivity() {
         ejecutarSecuencia()
     }
 
+    suspend fun comprobarSecuencia() {
+
+        Log.d("Estado", "Comprobando secuencia")
+        if (!resultado) {
+
+            // Ponemos la ronda a 0 por que el juego se termino
+            delay(500)
+            ronda = 0
+            rondaTextView?.text = ronda.toString()
+
+            // Reseteamos los arrays para poder volver a jugar
+            secuencia = arrayListOf()
+            comprobar = arrayListOf()
+            // Hacemos visible el botón jugar
+            empezarJugar?.visibility = Button.VISIBLE
+
+        } else {
+            // Resteamos el arraylist comprobar cada nueva ronda
+            comprobar = arrayListOf()
+            delay(500)
+            mostrarRonda()
+
+        }
+        Log.d("Estado", "Secuencia comprobada")
+
+    }
 
 
 
