@@ -89,12 +89,25 @@ class MainActivity : AppCompatActivity() {
         job = GlobalScope.launch(Dispatchers.Main) {
             secuenciaBotones()
 
-            //  secuenciaTerminada = true
-
         }
         Log.d("Estado", "Secuencia ejecutada")
 
     }
+
+    private fun mostrarRonda() {
+
+        //Incrementamos una unida la ronda cada vez que se ejecute el metodo mostrarRonda
+        ronda++
+        //Le enviamos la ronda incrementada al TextView para que se muestre
+        rondaTextView?.text = ronda.toString()
+
+        Log.d("Estado", "Mostrando ronda $ronda")
+
+        // Ejecutamos la secuencia
+        ejecutarSecuencia()
+    }
+
+
 
 
 }
