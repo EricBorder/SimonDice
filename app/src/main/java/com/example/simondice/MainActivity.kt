@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         job = GlobalScope.launch(Dispatchers.Main) {
             secuenciaBotones()
+            listernerBotones()
 
         }
         Log.d("Estado", "Secuencia ejecutada")
