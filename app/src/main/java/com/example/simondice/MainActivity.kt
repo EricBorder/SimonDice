@@ -82,4 +82,19 @@ class MainActivity : AppCompatActivity() {
         secuenciaTerminada = true
     }
 
+    private fun ejecutarSecuencia() {
+
+        Log.d("Estado", "Ejecutando secuencia")
+
+        job = GlobalScope.launch(Dispatchers.Main) {
+            secuenciaBotones()
+
+            //  secuenciaTerminada = true
+
+        }
+        Log.d("Estado", "Secuencia ejecutada")
+
+    }
+
+
 }
