@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     var resultado: Boolean = true
 
     // Declaramos variables nulas de tipo Button para después añadirles el id de los botones del layout
-    var empezarJugar: Button? = null
+    lateinit var empezarJugar: Button
 
 
 
@@ -78,6 +79,19 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+        //Observacion del cambio de Ronda
+        miModelo.liveRonda.observe(
+            this,
+            Observer(
+                fun(ronda: Int) {
+                    var tvRonda: TextView = findViewById(R.id.ronda)
+                    if (ronda == 0) empezarJugar.isClickable = true
+
+                    tvRonda.setText("Ronda: " + ronda)
+
+                }
+            )
+        )
     }
 
 
