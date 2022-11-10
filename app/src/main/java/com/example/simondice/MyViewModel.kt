@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 
@@ -34,13 +35,17 @@ class MyViewModel() : ViewModel() {
 
     // Declaramos listas mutables para agregar la secuencia de los botones y los botones que se han pulsado
 
-    val arrayBotones = hashMapOf<Int, Button>()
+
     var secuencia: MutableList<Int> = arrayListOf()
     var comprobar: MutableList<Int> = arrayListOf()
 
+    var restart = MutableLiveData<Boolean>()
+    init {
+        restart.value = false
+    }
 
 
-    suspend fun secuenciaBotones() {
+    suspend fun secuenciaBotones(arrayBotones : MutableMap<Int, Button>) {
 
         val random = (0..3).random()
         secuencia.add(random)
@@ -55,13 +60,14 @@ class MyViewModel() : ViewModel() {
         secuenciaTerminada = true
     }
 
-    private fun ejecutarSecuencia() {
+    private fun ejecutarSecuencia(arrayBotones : MutableMap<Int, Button>) {
 
         Log.d("Estado", "Ejecutando secuencia")
 
         job = GlobalScope.launch(Dispatchers.Main) {
-            secuenciaBotones()
-            listernerBotones()
+            secuenciaBotones(arrayBotones)
+            listernerBotones(arrayBotones)
+
 
         }
         Log.d("Estado", "Secuencia ejecutada")
@@ -70,7 +76,7 @@ class MyViewModel() : ViewModel() {
 
     }
 
-    fun mostrarRonda() {
+    fun mostrarRonda(arrayBotones : MutableMap<Int, Button>) {
 
         //Incrementamos una unida la ronda cada vez que se ejecute el metodo mostrarRonda
         ronda++
@@ -80,10 +86,10 @@ class MyViewModel() : ViewModel() {
         Log.d("Estado", "Mostrando ronda $ronda")
 
         // Ejecutamos la secuencia
-        ejecutarSecuencia()
+        ejecutarSecuencia(arrayBotones)
     }
 
-    suspend fun comprobarSecuencia() {
+    suspend fun comprobarSecuencia(arrayBotones : MutableMap<Int, Button>) {
 
         Log.d("Estado", "Comprobando secuencia")
         if (!resultado) {
@@ -103,14 +109,14 @@ class MyViewModel() : ViewModel() {
             // Resteamos el arraylist comprobar cada nueva ronda
             comprobar = arrayListOf()
             delay(500)
-            mostrarRonda()
+            mostrarRonda(arrayBotones)
 
         }
         Log.d("Estado", "Secuencia comprobada")
 
     }
 
-    private fun listernerBotones() {
+    private fun listernerBotones(arrayBotones : MutableMap<Int, Button>) {
         arrayBotones.forEach { (t, u) ->
             u.setOnClickListener {
                 comprobar.add(t)
@@ -118,12 +124,12 @@ class MyViewModel() : ViewModel() {
                 resultado = comprobar[indice] == secuencia[indice]
                 if (comprobar.size == ronda) {
                     job = GlobalScope.launch(Dispatchers.Main) {
-                        comprobarSecuencia()
+                        comprobarSecuencia(arrayBotones)
                     }
                 }
                 if (!resultado && comprobar.size != ronda) {
                     job = GlobalScope.launch(Dispatchers.Main) {
-                        comprobarSecuencia()
+                        comprobarSecuencia(arrayBotones)
                     }
                 }
 
