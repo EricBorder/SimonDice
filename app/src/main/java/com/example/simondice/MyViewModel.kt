@@ -1,18 +1,32 @@
 package com.example.simondice
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 
-class MyViewModel() : ViewModel() {
+class MyViewModel(application: Application) : AndroidViewModel(application) {
+
+    //Contexto de la aplicacion, que nos permite crear toast y guardar el record en las SharedPreferences
+    private val context: Context = getApplication<Application>().applicationContext
 
     // Inicicamos la ronda
     var ronda: Int = 0
     var job: Job? = null
+
+    //Con estas variables observamos los cambios en la ronda
+    var liveRonda = MutableLiveData<Int>()
+
+    //Inicializamos variables cuando instanciamos
+    init {
+        liveRonda.value = ronda
+    }
 
     // Instaciamos las variables del layout
     var rondaTextView: TextView? = null
@@ -71,7 +85,7 @@ class MyViewModel() : ViewModel() {
 
         }
         Log.d("Estado", "Secuencia ejecutada")
-        //Toast.makeText(this@MainActivity, "REPITE LA SECUENCIA", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "REPITE LA SECUENCIA", Toast.LENGTH_SHORT).show()
 
 
     }
@@ -93,7 +107,7 @@ class MyViewModel() : ViewModel() {
 
         Log.d("Estado", "Comprobando secuencia")
         if (!resultado) {
-            //Toast.makeText(this@MainActivity, "GAME OVER", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "GAME OVER", Toast.LENGTH_SHORT).show()
             // Ponemos la ronda a 0 por que el juego se termino
             delay(500)
             ronda = 0
