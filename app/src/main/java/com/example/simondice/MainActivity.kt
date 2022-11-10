@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             rondaTextView?.visibility = TextView.VISIBLE
             //Hacemos invisible el boton jugar
             empezarJugar?.visibility = Button.INVISIBLE
-            miModelo.mostrarRonda()
+            miModelo.mostrarRonda(arrayBotones)
 
 
         }
