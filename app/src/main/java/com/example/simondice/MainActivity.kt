@@ -1,16 +1,12 @@
 package com.example.simondice
 
-import android.content.Intent
-import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,17 +14,8 @@ class MainActivity : AppCompatActivity() {
     var rondaTextView: TextView? = null
     var tituloTextView: TextView? = null
 
-    //Inicamos un indice  para poder acceder a los elementos de los arraylist comprobar y secuencia
-    var indice: Int = 0
-
     // Declaramos una variable de control para que no rompa el programa si el usuario pulsa cualquier boton antes del boton jugar
     var jugarPulsado = false
-
-    // Declaramos una variable de control para que no rompa el programa si el usuario pulsa cualquier boton antes de que termine de mostrar la secuencia
-    var secuenciaTerminada = false
-
-    // Iniciamos una variable de control para comprobar la secuencia
-    var resultado: Boolean = true
 
     // Declaramos variables nulas de tipo Button para después añadirles el id de los botones del layout
     lateinit var empezarJugar: Button
@@ -43,9 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         // Asignamos el id del TQ   TextView ronda a la variable rondaTextView
         rondaTextView = findViewById(R.id.ronda)
-
-        //Asigamos a la variable tituloTexView el id del textView titulo
-        tituloTextView = findViewById(R.id.titulo)
 
         //Asignamos a la varibale empezarJugar el id del boton jugar
         empezarJugar = findViewById(R.id.startButton)
@@ -71,12 +55,10 @@ class MainActivity : AppCompatActivity() {
             jugarPulsado = true
             //Hacemos visible el titulo Ronda cuando el jugador pulsa jugar
             tituloTextView?.visibility = TextView.VISIBLE
-            //Hacemos visible el número de la ronda cuando el jugador pulsa jugar
-            rondaTextView?.visibility = TextView.VISIBLE
+
             //Hacemos invisible el boton jugar
             empezarJugar?.visibility = Button.INVISIBLE
             miModelo.mostrarRonda(arrayBotones)
-
 
         }
         //Observacion del cambio de Ronda
