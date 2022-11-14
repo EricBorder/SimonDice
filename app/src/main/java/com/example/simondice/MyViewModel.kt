@@ -8,7 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,13 +29,9 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     // Instaciamos las variables del layout
     var rondaTextView: TextView? = null
-    var tituloTextView: TextView? = null
 
     //Inicamos un indice  para poder acceder a los elementos de los arraylist comprobar y secuencia
     var indice: Int = 0
-
-    // Declaramos una variable de control para que no rompa el programa si el usuario pulsa cualquier boton antes del boton jugar
-    var jugarPulsado = false
 
     // Declaramos una variable de control para que no rompa el programa si el usuario pulsa cualquier boton antes de que termine de mostrar la secuencia
     var secuenciaTerminada = false
@@ -94,8 +89,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
         //Incrementamos una unida la ronda cada vez que se ejecute el metodo mostrarRonda
         ronda++
-        //Le enviamos la ronda incrementada al TextView para que se muestre
-        rondaTextView?.text = ronda.toString()
+        liveRonda.setValue(ronda)
 
         Log.d("Estado", "Mostrando ronda $ronda")
 
