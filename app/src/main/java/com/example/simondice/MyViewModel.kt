@@ -19,12 +19,22 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     var ronda: Int = 0
     var job: Job? = null
 
+    //Iniciamos el record
+    var record: Int = 0
+
+    //Con estas variables observamos los cambios en el record
+    var liveRecord = MutableLiveData<Int>()
+
     //Con estas variables observamos los cambios en la ronda
     var liveRonda = MutableLiveData<Int>()
 
     //Inicializamos variables cuando instanciamos
     init {
         liveRonda.value = ronda
+    }
+
+    init {
+        liveRecord.value = record
     }
 
     // Instaciamos las variables del layout
@@ -89,9 +99,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
         //Incrementamos una unida la ronda cada vez que se ejecute el metodo mostrarRonda
         ronda++
+        record++
         liveRonda.setValue(ronda)
+        liveRecord.setValue(record)
 
         Log.d("Estado", "Mostrando ronda $ronda")
+        Log.d("Estado", "Mostrando record $record")
 
         // Ejecutamos la secuencia
         ejecutarSecuencia(arrayBotones)
