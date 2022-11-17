@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             miModelo.mostrarRonda(arrayBotones)
 
         }
+
         //Observacion del cambio de Ronda
         miModelo.liveRonda.observe(
             this,
