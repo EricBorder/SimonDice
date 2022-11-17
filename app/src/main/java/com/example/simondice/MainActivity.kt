@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
     // Instaciamos las variables del layout
     var rondaTextView: TextView? = null
     var tituloTextView: TextView? = null
+    var recordTextView: TextView? = null
 
     // Declaramos una variable de control para que no rompa el programa si el usuario pulsa cualquier boton antes del boton jugar
     var jugarPulsado = false
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         // Asignamos el id del TQ   TextView ronda a la variable rondaTextView
         rondaTextView = findViewById(R.id.ronda)
+
+        // Asignamos el id del TQ   TextView record a la variable recordTextView
+        recordTextView = findViewById(R.id.record)
 
         //Asignamos a la varibale empezarJugar el id del boton jugar
         empezarJugar = findViewById(R.id.startButton)
@@ -69,6 +73,19 @@ class MainActivity : AppCompatActivity() {
                     if (ronda == 0) empezarJugar.isClickable = true
 
                     tvRonda.setText("Ronda: " + ronda)
+
+                }
+            )
+        )
+
+        //Observacion del cambio de Record
+        miModelo.liveRecord.observe(
+            this,
+            Observer(
+                fun(record: Int) {
+                    var tvRecord: TextView = findViewById(R.id.record)
+
+                    tvRecord.setText("Record: " + record)
 
                 }
             )
