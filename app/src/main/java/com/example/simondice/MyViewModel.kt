@@ -1,5 +1,6 @@
 package com.example.simondice
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.util.Log
@@ -8,12 +9,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import kotlinx.coroutines.*
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     //Contexto de la aplicacion, que nos permite crear toast y guardar el record en las SharedPreferences
+    @SuppressLint("StaticFieldLeak")
     private val context: Context = getApplication<Application>().applicationContext
+    private var room : RecordDataBase? = null
 
     // Inicicamos la ronda
     var ronda: Int = 0
@@ -36,8 +40,27 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     init {
         liveRecord.value = record
     }
+    init {
+        liveRonda.value = 0
+        room = Room
+            .databaseBuilder(context,
+                RecordDataBase::class.java, "puntuaciones")
+            .build()
+
+        val roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
+            try {
+                liveRecord.value = room!!.recordDao().getPuntuacion()
+                Log.d("RecSQL", liveRecord.value.toString())
+            } catch(ex : java.lang.NullPointerException) {
+                room!!.recordDao().crearPuntuacion()
+                liveRecord.value = room!!.recordDao().getPuntuacion()
+            }
+        }
+        roomCorrutine.start()
+    }
 
     // Instaciamos las variables del layout
+    @SuppressLint("StaticFieldLeak")
     var rondaTextView: TextView? = null
 
     //Inicamos un indice  para poder acceder a los elementos de los arraylist comprobar y secuencia
@@ -50,6 +73,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     var resultado: Boolean = true
 
     // Declaramos variables nulas de tipo Button para después añadirles el id de los botones del layout
+    @SuppressLint("StaticFieldLeak")
     var empezarJugar: Button? = null
 
     // Declaramos listas mutables para agregar la secuencia de los botones y los botones que se han pulsado
@@ -102,6 +126,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         record++
         liveRonda.setValue(ronda)
         liveRecord.setValue(record)
+        actualizarRecord()
 
         Log.d("Estado", "Mostrando ronda $ronda")
         Log.d("Estado", "Mostrando record $record")
@@ -156,5 +181,15 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
             }
         }
+    }
+    //Función para actualizar el record en la base de datos
+    private fun actualizarRecord() {
+        liveRecord.value = liveRonda.value
+        val updateCorrutine = GlobalScope.launch(Dispatchers.Main) {
+            room!!.recordDao().update(Record(1, liveRonda.value!!))
+
+            Log.d("ActRec",liveRecord.value.toString())
+        }
+        updateCorrutine.start()
     }
 }
