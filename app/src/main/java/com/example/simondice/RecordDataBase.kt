@@ -8,5 +8,5 @@ import androidx.room.RoomDatabase
     version = 1
 )
 abstract class RecordDataBase : RoomDatabase() {
-    abstract fun recordDao() : RecordDAO
+    abstract fun recordDao() : RecordDao
 }
