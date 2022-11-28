@@ -9,7 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
 class MyViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,6 +30,8 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     //Iniciamos el record
     var record: Int = 0
+
+    private lateinit var firebaseRecord: DatabaseReference
 
     //Con estas variables observamos los cambios en el record
     var liveRecord = MutableLiveData<Int>()
@@ -42,7 +49,23 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
     init {
         liveRonda.value = 0
-        room = Room
+
+        //Acceso a la BD Firebase
+        firebaseRecord = Firebase.database("https://juego-simon-dice-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Puntuacion")
+        //definición del listener
+        val recordListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                liveRecord.value = dataSnapshot.value as Int?
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("ReaLTime", "recordListener:OnCancelled", error.toException())
+            }
+        }
+        //Añado el listener a la BD
+        firebaseRecord.addValueEventListener(recordListener)
+
+        /*room = Room
             .databaseBuilder(context,
                 RecordDataBase::class.java, "puntuaciones")
             .build()
@@ -56,7 +79,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 liveRecord.value = room!!.recordDao().getPuntuacion()
             }
         }
-        roomCorrutine.start()
+        roomCorrutine.start()*/
     }
 
     // Instaciamos las variables del layout
@@ -184,13 +207,17 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
     //Función para actualizar el record en la base de datos
     private fun actualizarRecord() {
-        liveRecord.value = liveRonda.value
+        /*liveRecord.value = liveRonda.value
         val updateCorrutine = GlobalScope.launch(Dispatchers.Main) {
             room!!.recordDao().update(Record(1, liveRonda.value!!))
 
             Log.d("ActRec",liveRecord.value.toString())
         }
-        updateCorrutine.start()
+        updateCorrutine.start()*/
+
+        liveRecord.value = liveRonda.value
+        firebaseRecord.setValue(liveRecord.value)
+
     }
 
 }
