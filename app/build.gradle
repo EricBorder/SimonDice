@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -40,16 +41,19 @@ android {
         testImplementation 'junit:junit:'
         androidTestImplementation 'androidx.test.ext:junit:1.1.4'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-        // Descargamos librerias de corrutina
+        //Descargamos librerias de corrutina
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
-        // utilizacion de MVVC
+        //Utilizacion de MVVC
         implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-        //para instanciar ViewModel en la Activity
+        //Para instanciar ViewModel en la Activity
         implementation "androidx.fragment:fragment-ktx:1.5.4"
 
         implementation "androidx.room:room-ktx:2.4.3"
         kapt "androidx.room:room-compiler:2.4.3"
+
+        //Para usar firebase
+        implementation platform('com.google.firebase:firebase-bom:31.1.0')
 
     }
 
