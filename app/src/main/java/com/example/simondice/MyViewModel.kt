@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
@@ -53,10 +54,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         //Acceso a la BD Firebase
         firebaseRecord = Firebase.database("https://juego-simon-dice-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("Puntuacion")
-        //definición del listener
+
+        //Defino el listener de la puntuación
         val recordListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                liveRecord.value = dataSnapshot.value as Int?
+                liveRecord.value = dataSnapshot.getValue<Int>()
+                Log.d("RecFirebase", liveRecord.value.toString())
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.d("ReaLTime", "recordListener:OnCancelled", error.toException())
@@ -210,14 +213,12 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         /*liveRecord.value = liveRonda.value
         val updateCorrutine = GlobalScope.launch(Dispatchers.Main) {
             room!!.recordDao().update(Record(1, liveRonda.value!!))
-
-            Log.d("ActRec",liveRecord.value.toString())
         }
         updateCorrutine.start()*/
 
         liveRecord.value = liveRonda.value
         firebaseRecord.setValue(liveRecord.value)
-
+        Log.d("ActRec",liveRecord.value.toString())
     }
 
 }
