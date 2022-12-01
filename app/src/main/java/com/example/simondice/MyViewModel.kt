@@ -32,6 +32,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     //Iniciamos el record
     var record: Int = 0
 
+    //Inicio base de datos Firebase
     private lateinit var firebaseRecord: DatabaseReference
 
     //Con estas variables observamos los cambios en el record
@@ -104,7 +105,6 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     // Declaramos listas mutables para agregar la secuencia de los botones y los botones que se han pulsado
 
-
     var secuencia: MutableList<Int> = arrayListOf()
     var comprobar: MutableList<Int> = arrayListOf()
 
@@ -113,7 +113,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         restart.value = false
     }
 
-
+    /**
+     * Método para generar la secuencia del juego
+     * @arrayBotones: array de los 4 botones del juego
+     */
     suspend fun secuenciaBotones(arrayBotones : MutableMap<Int, Button>) {
 
         val random = (0..3).random()
@@ -129,6 +132,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         secuenciaTerminada = true
     }
 
+    /**
+     * Método para ejecutar la secuencia del juego
+     * @arrayBotones: array de los 4 botones del juego
+     */
     private fun ejecutarSecuencia(arrayBotones : MutableMap<Int, Button>) {
 
         Log.d("Estado", "Ejecutando secuencia")
@@ -145,6 +152,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    /**
+     * Método para Mostrar la ronda por pantalla e incrementarla
+     * @arrayBotones: array de los 4 botones del juego
+     */
     fun mostrarRonda(arrayBotones : MutableMap<Int, Button>) {
 
         //Incrementamos una unida la ronda cada vez que se ejecute el metodo mostrarRonda
@@ -161,6 +172,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         ejecutarSecuencia(arrayBotones)
     }
 
+    /**
+     * Método de comprobar la secuencia generada
+     * @arrayBotones: array de los 4 botones del juego
+     */
     suspend fun comprobarSecuencia(arrayBotones : MutableMap<Int, Button>) {
 
         Log.d("Estado", "Comprobando secuencia")
@@ -188,6 +203,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
+    /**
+     * Método para escuchar los botones y comprobar en cada pulsación la secuencia
+     * @arrayBotones: array de los 4 botones del juego
+     */
     private fun listernerBotones(arrayBotones : MutableMap<Int, Button>) {
         arrayBotones.forEach { (t, u) ->
             u.setOnClickListener {
@@ -208,7 +227,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    //Función para actualizar el record en la base de datos
+
+    /**
+     * Método para actualizar el record en la base de datos
+     */
     private fun actualizarRecord() {
         /*liveRecord.value = liveRonda.value
         val updateCorrutine = GlobalScope.launch(Dispatchers.Main) {
